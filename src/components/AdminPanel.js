@@ -14,11 +14,6 @@ import {
   Tr,
   Th,
   Td,
-  Button,
-  Input,
-  FormControl,
-  FormLabel,
-  useToast,
   Flex,
   Image,
 } from "@chakra-ui/react";
@@ -30,46 +25,12 @@ const AdminPanel = () => {
   const [emailTemplates, setEmailTemplates] = useState([]);
   const toast = useToast();
 
-  // Mock functions for CRUD operations (replace with actual API calls later)
-  const addMembership = (membership) => {
-    setMemberships([...memberships, { ...membership, id: Date.now() }]);
-    toast({
-      title: "Membership added",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
-
-  const addCustomer = (customer) => {
-    setCustomers([...customers, { ...customer, id: Date.now() }]);
-    toast({
-      title: "Customer added",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
-
-  const addPayment = (payment) => {
-    setPayments([...payments, { ...payment, id: Date.now() }]);
-    toast({
-      title: "Payment recorded",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
-
-  const addEmailTemplate = (template) => {
-    setEmailTemplates([...emailTemplates, { ...template, id: Date.now() }]);
-    toast({
-      title: "Email template added",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
+  // These functions will be implemented later when we add CRUD operations
+  // For now, we'll keep them as placeholders
+  const addMembership = () => {};
+  const addCustomer = () => {};
+  const addPayment = () => {};
+  const addEmailTemplate = () => {};
 
   return (
     <Box width="100%" p={5}>

@@ -11,6 +11,8 @@ import {
   FormLabel,
   useToast,
   Text,
+  Image,
+  Flex,
 } from "@chakra-ui/react";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
@@ -168,6 +170,10 @@ const PaymentHandler = () => {
 
   return (
     <Box width="100%" p={5}>
+      <Flex alignItems="center" mb={5}>
+        <Image src="/images/SocialPal++1.png" alt="SocialPal AI Logo" height="40px" mr={2} />
+        <Heading as="h1" size="lg">socialpal.ai</Heading>
+      </Flex>
       <Heading as="h2" size="xl" mb={5}>Payment Handler</Heading>
       <VStack spacing={4} align="stretch">
         <FormControl>

@@ -20,7 +20,7 @@ import config from '../config';
 import { CurrencyContext } from '../contexts/CurrencyContext';
 
 // Initialize Stripe
-const stripePromise = loadStripe('your_stripe_publishable_key');
+const stripePromise = loadStripe(config.STRIPE_PUBLISHABLE_KEY);
 
 const PaymentForm = ({ amount, currency, onSuccess }) => {
   const stripe = useStripe();
@@ -104,7 +104,7 @@ const PaymentHandler = () => {
   }, [amount, baseCurrency, selectedCurrency]);
 
   const convertCurrency = async () => {
-    if (amount && baseCurrency !== selectedCurrency) {
+    if (amount && !isNaN(parseFloat(amount)) && baseCurrency !== selectedCurrency) {
       try {
         const response = await fetch(`${config.API_URL}/api/currency/convert`, {
           method: 'POST',
@@ -116,13 +116,22 @@ const PaymentHandler = () => {
           }),
         });
         const convertedAmount = await response.json();
-        setConvertedAmount(convertedAmount.toFixed(2));
+        setConvertedAmount(parseFloat(convertedAmount).toFixed(2));
       } catch (error) {
         console.error('Currency conversion failed:', error);
         setConvertedAmount('');
+        toast({
+          title: "Currency conversion failed",
+          description: "Please try again later.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
+    } else if (amount && !isNaN(parseFloat(amount))) {
+      setConvertedAmount(parseFloat(amount).toFixed(2));
     } else {
-      setConvertedAmount(amount);
+      setConvertedAmount('');
     }
   };
 
@@ -208,14 +217,14 @@ const PaymentHandler = () => {
         {paymentMethod === 'stripe' ? (
           <Elements stripe={stripePromise}>
             <PaymentForm
-              amount={parseFloat(convertedAmount || amount)}
+              amount={parseFloat(convertedAmount || amount) || 0}
               currency={selectedCurrency}
               onSuccess={handlePaymentSuccess}
             />
           </Elements>
         ) : (
           <Button colorScheme="purple" onClick={handleManualPayment}>
-            Record Manual Payment
+            Record Manual Payment of {parseFloat(convertedAmount || amount).toFixed(2)} {selectedCurrency}
           </Button>
         )}
       </VStack>

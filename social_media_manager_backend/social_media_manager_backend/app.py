@@ -5,8 +5,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import psycopg
-from .routers import accounts, posts, statistics, url_shortener, members, admin, threads, payments, currency, youtube_shorts, tiktok, auth
-from .database import database
+from social_media_manager_backend.routers import accounts, posts, statistics, url_shortener, members, admin, threads, payments, currency, youtube_shorts, tiktok, auth
+from social_media_manager_backend.database import database
 
 app = FastAPI()
 

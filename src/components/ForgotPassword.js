@@ -10,6 +10,8 @@ import {
   Text,
   Link,
   useToast,
+  Image,
+  Flex,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -32,7 +34,11 @@ const ForgotPassword = () => {
   return (
     <Box width="100%" maxWidth="400px" margin="auto" mt={8}>
       <VStack spacing={8} align="stretch">
-        <Heading as="h1" size="xl" textAlign="center" color="purple.600">
+        <Flex alignItems="center" justifyContent="center" mb={5}>
+          <Image src="/images/SocialPal++1.png" alt="SocialPal AI Logo" height="40px" mr={2} />
+          <Heading as="h1" size="lg">socialpal.ai</Heading>
+        </Flex>
+        <Heading as="h2" size="xl" textAlign="center" color="purple.600">
           Forgot Password
         </Heading>
         <form onSubmit={handleForgotPassword}>

@@ -122,7 +122,7 @@ const CalendarComponent = () => {
   return (
     <Box width="100%" p={5}>
       <Flex alignItems="center" mb={5}>
-        <Image src="/images/Social+Pal++1.png" alt="SocialPal AI Logo" height="40px" mr={2} />
+        <Image src="/images/SocialPal++1.png" alt="SocialPal AI Logo" height="40px" mr={2} />
         <Heading as="h1" size="lg">socialpal.ai</Heading>
       </Flex>
       <Heading as="h2" size="xl" mb={5}>Calendar</Heading>

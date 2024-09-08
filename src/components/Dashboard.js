@@ -41,7 +41,7 @@ const Dashboard = () => {
           <Text color="gray.500">Here's what's happening with your accounts today.</Text>
         </VStack>
         <Flex alignItems="center">
-          <Image src="/images/Social+Pal++1.png" alt="SocialPal AI Logo" height="40px" mr={2} />
+          <Image src="/images/SocialPal++1.png" alt="SocialPal AI Logo" height="40px" mr={2} />
           <Heading as="h1" size="lg">socialpal.ai</Heading>
         </Flex>
       </Flex>

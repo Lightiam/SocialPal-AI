@@ -15,6 +15,8 @@ import {
   useToast,
   Text,
   IconButton,
+  Image,
+  Flex,
 } from "@chakra-ui/react";
 import { CopyIcon } from '@chakra-ui/icons';
 
@@ -60,6 +62,10 @@ const URLShortener = () => {
 
   return (
     <Box width="100%" p={5}>
+      <Flex alignItems="center" mb={5}>
+        <Image src="/images/SocialPal++1.png" alt="SocialPal AI Logo" height="40px" mr={2} />
+        <Heading as="h1" size="lg">socialpal.ai</Heading>
+      </Flex>
       <Heading as="h2" size="xl" mb={5}>URL Shortener</Heading>
       <VStack spacing={4} align="stretch">
         <HStack>
@@ -68,7 +74,7 @@ const URLShortener = () => {
             value={longUrl}
             onChange={(e) => setLongUrl(e.target.value)}
           />
-          <Button colorScheme="blue" onClick={handleShortenUrl}>
+          <Button colorScheme="purple" onClick={handleShortenUrl}>
             Shorten URL
           </Button>
         </HStack>
@@ -86,7 +92,7 @@ const URLShortener = () => {
                 <Tr key={index}>
                   <Td>{url.original}</Td>
                   <Td>
-                    <Text as="a" color="blue.500" href={url.shortened} target="_blank" rel="noopener noreferrer">
+                    <Text as="a" color="purple.500" href={url.shortened} target="_blank" rel="noopener noreferrer">
                       {url.shortened}
                     </Text>
                   </Td>
@@ -96,6 +102,7 @@ const URLShortener = () => {
                       icon={<CopyIcon />}
                       onClick={() => handleCopyUrl(url.shortened)}
                       size="sm"
+                      colorScheme="purple"
                     />
                   </Td>
                 </Tr>

@@ -37,7 +37,7 @@ const SignUp = () => {
     <Box width="100%" maxWidth="400px" margin="auto" mt={8}>
       <VStack spacing={8} align="stretch">
         <Flex alignItems="center" justifyContent="center">
-          <Image src="/images/Social+Pal++1.png" alt="SocialPal AI Logo" height="40px" mr={2} />
+          <Image src="/images/SocialPal++1.png" alt="SocialPal AI Logo" height="40px" mr={2} />
           <Heading as="h1" size="lg">socialpal.ai</Heading>
         </Flex>
         <Heading as="h2" size="xl" textAlign="center" color="purple.600">

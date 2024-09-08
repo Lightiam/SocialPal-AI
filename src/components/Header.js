@@ -23,7 +23,7 @@ const Header = () => {
     <Box as="header" width="100%" py={4} px={8} bg="purple.600" color="white">
       <Flex alignItems="center">
         <Flex alignItems="center">
-          <Image src="/images/Social+Pal++1.png" alt="SocialPal AI Logo" height="40px" mr={2} />
+          <Image src="/images/Social+Pal+.png" alt="SocialPal AI Logo" height="40px" mr={2} />
           <Heading as="h1" size="lg">socialpal.ai</Heading>
         </Flex>
         <Spacer />

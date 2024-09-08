@@ -123,7 +123,7 @@ const PricingPage = () => {
       <Container maxW="container.xl">
         <VStack spacing={8} textAlign="center" mb={16}>
           <Flex alignItems="center">
-            <Image src="/images/Social+Pal++1.png" alt="SocialPal AI Logo" height="40px" mr={2} />
+            <Image src="/images/SocialPal++1.png" alt="SocialPal AI Logo" height="40px" mr={2} />
             <Heading as="h1" size="lg" color="white">socialpal.ai</Heading>
           </Flex>
           <Heading as="h2" fontSize="5xl" color="white">

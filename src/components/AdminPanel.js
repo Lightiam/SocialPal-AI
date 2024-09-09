@@ -16,21 +16,18 @@ import {
   Td,
   Flex,
   Image,
+  useToast,
 } from "@chakra-ui/react";
 
 const AdminPanel = () => {
-  const [memberships, setMemberships] = useState([]);
-  const [customers, setCustomers] = useState([]);
-  const [payments, setPayments] = useState([]);
-  const [emailTemplates, setEmailTemplates] = useState([]);
-  const toast = useToast();
+  const [memberships] = useState([]);
+  const [customers] = useState([]);
+  const [payments] = useState([]);
+  const [emailTemplates] = useState([]);
+  useToast();
 
   // These functions will be implemented later when we add CRUD operations
-  // For now, we'll keep them as placeholders
-  const addMembership = () => {};
-  const addCustomer = () => {};
-  const addPayment = () => {};
-  const addEmailTemplate = () => {};
+  // For now, we'll remove them to avoid ESLint warnings
 
   return (
     <Box width="100%" p={5}>

@@ -17,6 +17,7 @@ import SignIn from './components/SignIn';
 import ForgotPassword from './components/ForgotPassword';
 import PricingPage from './components/PricingPage';
 import Inbox from './components/Inbox';
+import { CurrencyProvider } from './contexts/CurrencyContext';
 
 const theme = extendTheme({
   colors: {
@@ -70,39 +71,41 @@ const theme = extendTheme({
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <Router>
-        <Box textAlign="center" fontSize="xl">
-          <Routes>
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/pricing" element={<PricingPage />} />
-            <Route
-              path="*"
-              element={
-                <Grid minH="100vh" p={3} bg="purple.50">
-                  <VStack spacing={8}>
-                    <Header />
-                    <Routes>
-                      <Route path="/" element={<LandingPage />} />
-                      <Route path="/dashboard" element={<Dashboard />} />
-                      <Route path="/accounts" element={<AccountManager />} />
-                      <Route path="/posts" element={<PostCreator />} />
-                      <Route path="/analytics" element={<Analytics />} />
-                      <Route path="/url-shortener" element={<URLShortener />} />
-                      <Route path="/admin" element={<AdminPanel />} />
-                      <Route path="/payments" element={<PaymentHandler />} />
-                      <Route path="/calendar" element={<Calendar />} />
-                      <Route path="/insights" element={<InsightPage />} />
-                      <Route path="/inbox" element={<Inbox />} />
-                    </Routes>
-                  </VStack>
-                </Grid>
-              }
-            />
-          </Routes>
-        </Box>
-      </Router>
+      <CurrencyProvider>
+        <Router>
+          <Box textAlign="center" fontSize="xl">
+            <Routes>
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/pricing" element={<PricingPage />} />
+              <Route
+                path="*"
+                element={
+                  <Grid minH="100vh" p={3} bg="purple.50">
+                    <VStack spacing={8}>
+                      <Header />
+                      <Routes>
+                        <Route path="/" element={<LandingPage />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/accounts" element={<AccountManager />} />
+                        <Route path="/posts" element={<PostCreator />} />
+                        <Route path="/analytics" element={<Analytics />} />
+                        <Route path="/url-shortener" element={<URLShortener />} />
+                        <Route path="/admin" element={<AdminPanel />} />
+                        <Route path="/payments" element={<PaymentHandler />} />
+                        <Route path="/calendar" element={<Calendar />} />
+                        <Route path="/insights" element={<InsightPage />} />
+                        <Route path="/inbox" element={<Inbox />} />
+                      </Routes>
+                    </VStack>
+                  </Grid>
+                }
+              />
+            </Routes>
+          </Box>
+        </Router>
+      </CurrencyProvider>
     </ChakraProvider>
   );
 }

@@ -1,3 +1,4 @@
+import logging
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
@@ -6,6 +7,10 @@ from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from social_media_manager_backend.database import database
+
+# Configure logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -18,10 +23,16 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+class UserCreate(BaseModel):
+    username: str
+    email: str
+    full_name: str
+    password: str
+
 class User(BaseModel):
     username: str
-    email: Optional[str] = None
-    full_name: Optional[str] = None
+    email: str
+    full_name: str
     disabled: Optional[bool] = None
 
 class UserInDB(User):
@@ -47,13 +58,11 @@ def get_user(username: str):
         user_dict = result[0]
         return UserInDB(**user_dict)
 
-def authenticate_user(username: str, password: str):
+def authenticate_user(username: str, password: str) -> Optional[User]:
     user = get_user(username)
-    if not user:
-        return False
-    if not verify_password(password, user.hashed_password):
-        return False
-    return user
+    if not user or not verify_password(password, user.hashed_password):
+        return None
+    return User(username=user.username, email=user.email, full_name=user.full_name)
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
@@ -87,7 +96,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 @router.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(form_data.username, form_data.password)
-    if not user:
+    if not isinstance(user, User):
         raise HTTPException(
             status_code=401,
             detail="Incorrect username or password",
@@ -100,27 +109,44 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/signup", response_model=User)
-async def signup(user: UserInDB):
+async def signup(user: UserCreate):
+    logger.info(f"Signup attempt for username: {user.username}")
+
     # Check if user already exists
     existing_user = get_user(user.username)
     if existing_user:
+        logger.warning(f"Signup failed: Username {user.username} already registered")
         raise HTTPException(status_code=400, detail="Username already registered")
 
-    # Hash the password
-    hashed_password = get_password_hash(user.hashed_password)
+    # Ensure full_name is provided
+    if not user.full_name:
+        logger.warning(f"Signup failed for {user.username}: Full name is required")
+        raise HTTPException(status_code=400, detail="Full name is required")
 
-    # Store the user in the database
+    # Hash the password
+    hashed_password = get_password_hash(user.password)
+
+    # Store the user in the database with the hashed password
     query = """
     INSERT INTO users (username, email, full_name, hashed_password)
     VALUES (%s, %s, %s, %s)
-    RETURNING *
+    RETURNING username, email, full_name
     """
     values = (user.username, user.email, user.full_name, hashed_password)
-    result = database.execute_query(query, values)
 
-    if result:
-        return User(**result[0])
-    else:
+    try:
+        result = database.execute_query(query, values)
+        if isinstance(result, list) and result:
+            logger.info(f"User {user.username} successfully created")
+            return User(**result[0])  # Return user without password
+        elif result is True:
+            logger.info(f"User {user.username} successfully created, but no data returned")
+            return User(username=user.username, email=user.email, full_name=user.full_name)
+        else:
+            logger.error(f"Failed to create user {user.username}: Unexpected result from database")
+            raise HTTPException(status_code=500, detail="Failed to create user")
+    except Exception as e:
+        logger.error(f"Error creating user {user.username}: {str(e)}")
         raise HTTPException(status_code=500, detail="Failed to create user")
 
 @router.post("/forgot-password")
